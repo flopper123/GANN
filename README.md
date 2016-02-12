@@ -26,7 +26,7 @@ PP.makePopulation(sizeOfPopulation, networkSize);
 ```
 
 
-To make train the network:
+To train the network:
 ```
 for(var g = 0; g < wantedGenerations; g++){
   for(var j = 0; j < PP.size; j++){
