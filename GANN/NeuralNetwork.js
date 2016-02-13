@@ -154,12 +154,17 @@ function Population(){
 		if(this.genome[this.genome.length - 1].fitness > this.globalBestGenome.fitness){ /* Check if we've found a new best "Genome" */
 			this.globalBestGenome = this.genome[this.genome.length - 1];
 		}
-		for(var i = 0; i < this.genome.length; i+=2){
+		for(var i = 0; i < (this.genome.length/2)-1; i+=2){ /* Select worst away */
 			var newGenes = [];
-			newGenes = this.crossOver(this.genome[i], this.genome[i+1]); /* Do the crossover from the best organism!! */
+			newGenes = this.crossOver(this.genome[i+(this.genome.length/2)], this.genome[i+(this.genome.length/2)+1]); /* Do some crossing */
 			this.genome[i] = newGenes[0];
 			this.genome[i+1] = newGenes[1];
-			
+		}
+		for(var i = (this.genome.length/2); i < this.genome.length-1; i+=2){
+			var newGenes = [];
+			newGenes = this.crossOver(this.genome[i], this.genome[i+1]);
+			this.genome[i] = newGenes[0];
+			this.genome[i+1] = newGenes[1];
 		}
 		this.generation++; /* We've reached a new generation!!! */
 	}
