@@ -10,7 +10,7 @@ Link to file like:
 To make a new Neural Network:
 ```
 var networkSize = [2, 3, 4, 3];
-var NN = new NeuralNetwork();
+var NN = new NeuralNet();
 NN.makeNet(networkSize);
 ```
 
