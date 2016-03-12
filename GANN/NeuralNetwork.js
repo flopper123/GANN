@@ -1,11 +1,12 @@
 /* Prototype replaceChar */
 String.prototype.replaceChar = function(index, char){
 	return this.substr(0, index) + char + this.substr(index + 1);
-}
+};
 
 /* Sigmoid curve */
 function sigmoid(z){
 	return 1/(1 + Math.pow( Math.E, z*(-1))); /* Sigmoid curve equation */
+	//return Math.tanh(z); /* Hyperbolic tangent */
 }
 
 /* Create Neuron class */
@@ -19,7 +20,7 @@ function Neuron(){
 		for(var i = 0; i < geneArray.length; i++){ /* Run through the different commands */
 			var readableGene = geneArray[i].split('.'); /* Finde index value */
 			this.weight[i] = parseInt(readableGene[1], 2); /* Set the weight from readable command */
-			if(readableGene[0] == 0){ /* If index is 0 then it should be a negative command */
+			if(parseInt(readableGene[0], 10) === 0){ /* If index is 0 then it should be a negative command */
 				this.weight[i] *= -1;
 			}
 		}
@@ -134,18 +135,22 @@ function Population(){
 		children[1].genome = parent2.genome.slice(0, crossPoint) + parent1.genome.slice(crossPoint+1, parent1.genome.length-1);
 
 		/* Add some mutations */
-		for(var i = 0; i < 2; i++){
-			for(var j = 0; j < children[i].genome.length; j++){
-				if(Math.floor(Math.random()*1000) == 500){ /* 0.1% chance */
-					if(children[i].genome.charAt(j) == "0"){
-						children[i].genome = children[i].genome.replaceChar(j, "1");
-					} else if(children[i].genome.charAt(j) == "1"){
-						children[i].genome = children[i].genome.replaceChar(j, "0");
-					}
-				}
+
+		for(var j = 0; j < (children[0].genome.length*0.001); j++){ /* There will always be the same amout of mutations with respect to the genome size, unsless it hits a splitter */
+			var index0 = Math.round(Math.random()*children[0].genome.length); /* Find random index */
+			if(children[0].genome.charAt(index0) == "0"){ /* If we have found a number, then switch it */
+				children[0].genome = children[0].genome.replaceChar(index0, "1");
+			} else if(children[0].genome.charAt(index0) == "1"){
+				children[0].genome = children[0].genome.replaceChar(index0, "0");
+			}
+
+			var index1 = Math.round(Math.random()*children[1].genome.length); /* Find random index */
+			if(children[1].genome.charAt(index1) == "0"){ /* If we have found a number, then switch it */
+				children[1].genome = children[1].genome.replaceChar(index1, "1");
+			} else if(children[1].genome.charAt(index1) == "1"){
+				children[1].genome = children[1].genome.replaceChar(index1, "0");
 			}
 		}
-
 		return children; /* Return the children */
 	};
 
